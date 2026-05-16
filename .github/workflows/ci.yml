@@ -116,31 +116,33 @@ jobs:
           echo "Production deployment simulation completed"
 
   notify-maintainers:
-    needs: [test-and-analyze, simulate-deploy-dev-uat, simulate-deploy-prod]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Send notification to maintainers
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const testStatus = '${{ needs.test-and-analyze.result }}';
-            const devUatStatus = '${{ needs.simulate-deploy-dev-uat.result }}';
-            const prodStatus = '${{ needs.simulate-deploy-prod.result }}';
-            let message = `Pipeline results:\n- Tests & analysis: ${testStatus}\n- Dev/UAT deploy simulation: ${devUatStatus}\n- Prod deploy simulation: ${prodStatus}`;
-            if (testStatus !== 'success' || devUatStatus === 'failure' || prodStatus === 'failure') {
-              message += '\n❌ Some stage failed. Check logs.';
-            } else {
-              message += '\n✅ All stages passed successfully.';
-            }
-            const maintainers = process.env.MAINTAINERS ? process.env.MAINTAINERS.split(',') : [];
-            for (const login of maintainers) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.number || 1,
-                body: `@${login} ${message}`
-              });
-            }
-        env:
-          MAINTAINERS: ${{ secrets.MAINTAINERS }}
+  needs: [test-and-analyze, simulate-deploy-dev-uat, simulate-deploy-prod]
+  runs-on: ubuntu-latest
+  if: always()
+  steps:
+    - name: Notify maintainers
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const testStatus = '${{ needs.test-and-analyze.result }}';
+          const devUatStatus = '${{ needs.simulate-deploy-dev-uat.result }}';
+          const prodStatus = '${{ needs.simulate-deploy-prod.result }}';
+          let message = `Pipeline results:\n- Tests & analysis: ${testStatus}\n- Dev/UAT deploy: ${devUatStatus}\n- Prod deploy: ${prodStatus}`;
+          if (testStatus !== 'success' || devUatStatus === 'failure' || prodStatus === 'failure') {
+            message += '\n❌ Some stage failed. Check logs.';
+          } else {
+            message += '\n✅ All stages passed successfully.';
+          }
+          const maintainers = (process.env.MAINTAINERS || '').split(',').filter(m => m.trim());
+          if (maintainers.length === 0) {
+            console.log('No maintainers specified, skipping notification');
+            return;
+          }
+          await github.rest.repos.createCommitComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            commit_sha: context.sha,
+            body: `@${maintainers.join(', @')} ${message}`
+          });
+      env:
+        MAINTAINERS: ${{ secrets.MAINTAINERS }}
