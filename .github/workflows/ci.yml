@@ -141,5 +141,5 @@ jobs:
               commit_sha: context.sha,
               body: `@${maintainers.join(', @')} ${message}`
             });
-      env:
-        MAINTAINERS: ${{ secrets.MAINTAINERS }}
+        env:
+          MAINTAINERS: ${{ secrets.MAINTAINERS }}
