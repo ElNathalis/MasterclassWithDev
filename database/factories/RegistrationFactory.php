@@ -12,7 +12,6 @@ use App\Models\MasterClass;
  */
 class RegistrationFactory extends Factory
 {
-    
     /**
      * Define the model's default state.
      *

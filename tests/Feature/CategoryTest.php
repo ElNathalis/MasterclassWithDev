@@ -7,7 +7,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\MasterClass;
-use App\Models\Registration;
 
 class CategoryTest extends TestCase
 {

@@ -20,7 +20,7 @@ class MasterClassController extends Controller
             ->where('date', '>=', now())
             ->get(['date', 'time'])
             ->groupBy('date')
-            ->map(fn($items) => $items->pluck('time')->toArray())
+            ->map(fn ($items) => $items->pluck('time')->toArray())
             ->toArray();
 
         $categories = Category::all();
