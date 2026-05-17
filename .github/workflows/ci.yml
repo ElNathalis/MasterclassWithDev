@@ -20,14 +20,14 @@ on:
 
 env:
   APP_ENV: testing
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   
 
 jobs:
   test-and-analyze:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4   
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -73,7 +73,7 @@ jobs:
     if: success() && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/uat' || github.ref == 'refs/heads/qa')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  
 
       - name: Determine environment
         id: env
@@ -104,7 +104,7 @@ jobs:
     if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 
 
       - name: Simulate deployment to production
         run: |
