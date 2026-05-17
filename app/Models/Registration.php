@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+/**
+ * @property int $id
+ * @property int $master_class_id
+ * @property int $user_id
+ * ...
+ */
 class Registration extends Model
 {
     use HasFactory; 

@@ -1,4 +1,17 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
 parameters:
     level: 5
     paths:
         - app
+        - tests
+    bootstrapFiles:
+        - _ide_helper.php
+        - .phpstorm.meta.php
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory::user\(\)#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory::id\(\)#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory::check\(\)#'
+        - '#Access to an undefined property Illuminate\\Http\\Request::\$#'
+        - '#Call to an undefined static method App\\Models\\User::create\(\)#'  # если create используется

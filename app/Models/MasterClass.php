@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+/**
+ * @property int $id
+ * @property string $title
+ * @property int $category_id
+ * @property int $user_id
+ * @property string $date
+ * @property int $max_participants
+ * ...
+ */
 class MasterClass extends Model
 {
     use HasFactory;

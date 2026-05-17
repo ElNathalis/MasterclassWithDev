@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\MasterClass;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class CategoryController extends Controller
 {

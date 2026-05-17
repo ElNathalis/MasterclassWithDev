@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MasterClass;
 use App\Models\Registration;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class RegistrationController extends Controller

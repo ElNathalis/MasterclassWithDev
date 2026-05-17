@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterClass;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class CabinetController extends Controller
 {
