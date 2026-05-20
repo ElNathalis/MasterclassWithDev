@@ -4,19 +4,13 @@ on:
   push:
     branches:
       - main
-      - master
       - develop
-      - dev
       - uat
-      - qa
   pull_request:
     branches:
       - main
-      - master
       - develop
-      - dev
       - uat
-      - qa
 
 env:
   APP_ENV: testing
@@ -51,7 +45,7 @@ jobs:
 
       - name: Linting (Laravel Pint)
         run: |
-          LONG_LIVED="main master develop dev uat qa"
+          LONG_LIVED="main develop uat"
           CURRENT_BRANCH="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
           if echo "$LONG_LIVED" | grep -qw "$CURRENT_BRANCH"; then
             echo "Running Pint in test mode (no fixes)"
@@ -69,7 +63,7 @@ jobs:
   simulate-deploy-dev-uat:
     needs: test-and-analyze
     runs-on: ubuntu-latest
-    if: success() && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/uat' || github.ref == 'refs/heads/qa')
+    if: success() && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/uat')
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -79,11 +73,11 @@ jobs:
         run: |
           BRANCH="${GITHUB_REF#refs/heads/}"
           case "$BRANCH" in
-            develop|dev)
+            develop)
               echo "file=.env.dev" >> $GITHUB_OUTPUT
               echo "name=dev" >> $GITHUB_OUTPUT
               ;;
-            uat|qa)
+            uat)
               echo "file=.env.uat" >> $GITHUB_OUTPUT
               echo "name=uat" >> $GITHUB_OUTPUT
               ;;
@@ -100,7 +94,7 @@ jobs:
     needs: test-and-analyze
     runs-on: ubuntu-latest
     environment: production
-    if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: success() && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
