@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\MasterClass;
 use App\Models\Registration;
-use Illuminate\Support\Facades\Auth;
 
 class MasterClassTest extends TestCase
 {
