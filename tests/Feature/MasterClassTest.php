@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\MasterClass;
 use App\Models\Registration;
+use Illuminate\Support\Facades\Auth;
 
 class MasterClassTest extends TestCase
 {
@@ -81,7 +82,10 @@ class MasterClassTest extends TestCase
         $response = $this->actingAs($master)
             ->getJson('/masterclass/check-slots?date=' . $date);
 
-        $response->assertStatus(500);
+        $response->assertOk()
+            ->assertJson([
+                'occupied_slots' => ['11:00'],
+            ]);
     }
 
     public function test_check_slots_returns_forbidden_for_non_master()
